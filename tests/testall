@@ -8,7 +8,7 @@ failures=0
 
 for f in $dependencies
 do
-  g++ -c $f
+  g++ -c $f || exit 1;
 done
 
 OBJ=./*.o 

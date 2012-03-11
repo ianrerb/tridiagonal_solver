@@ -1,5 +1,5 @@
 #include<iostream>
-#include"../inc/tridiagonal.h"
+#include"../inc/TridiagonalMatrix.h"
 using namespace std;
 
 int main()

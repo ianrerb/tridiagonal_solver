@@ -10,3 +10,132 @@ Mon Mar 5 20:26:57 EST 2012
 print_tri.cpp passed
 tridiagonal1.cpp passed
 All Tests Passed
+
+Sat Mar 10 15:43:03 EST 2012
+print_tri.cpp failed
+tridiagonal1.cpp failed
+
+Sat Mar 10 15:44:16 EST 2012
+print_tri.cpp failed
+tridiagonal1.cpp failed
+
+Sat Mar 10 15:52:02 EST 2012
+print_tri.cpp failed
+tridiagonal1.cpp failed
+
+Sat Mar 10 16:02:43 EST 2012
+print_tri.cpp failed
+tridiagonal1.cpp failed
+
+Sat Mar 10 16:03:01 EST 2012
+print_tri.cpp failed
+tridiagonal1.cpp failed
+
+Sat Mar 10 16:04:29 EST 2012
+print_tri.cpp failed
+tridiagonal1.cpp failed
+
+Sat Mar 10 16:09:31 EST 2012
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Sun Mar 11 11:27:45 EDT 2012
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Sun Mar 11 11:46:24 EDT 2012
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Sun Mar 11 11:54:32 EDT 2012
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Sun Mar 11 12:40:17 EDT 2012
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Sun Mar 11 15:30:57 EDT 2012
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Sun Mar 11 16:02:53 EDT 2012
+Engine1.cpp failed
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+
+Sun Mar 11 16:03:31 EDT 2012
+Engine1.cpp failed
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+
+Sun Mar 11 16:04:37 EDT 2012
+Engine1.cpp failed
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+
+Sun Mar 11 16:05:00 EDT 2012
+Engine1.cpp failed
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+
+Sun Mar 11 16:09:06 EDT 2012
+Engine1.cpp failed
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp failed
+tridiagonal1.cpp passed
+
+Sun Mar 11 16:23:43 EDT 2012
+Engine1.cpp passed
+GridPoint1.cpp passed
+OptionGrid1.cpp passed
+OptionGrid2.cpp passed
+OptionGrid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed

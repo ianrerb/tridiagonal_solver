@@ -1,4 +1,4 @@
-#include"../inc/tridiagonal.h"
+#include"../inc/TridiagonalMatrix.h"
 #include<iostream>
 
 using namespace std;

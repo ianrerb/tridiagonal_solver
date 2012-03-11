@@ -1,4 +1,4 @@
-#include"../inc/tridiagonal.h"
+#include"../inc/TridiagonalMatrix.h"
 #include<cmath>
 
 TridiagonalMatrix::TridiagonalMatrix(unsigned int size_) : size(size_) 
