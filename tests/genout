@@ -4,11 +4,11 @@ SRC=../src/*.cpp
 
 g++ -o temp1 $1 $SRC
 
-if [ "$2" = "" ] 
-then 
+if [ "$2" = "" ]
+then
   ./temp1 > ./outputs/$1.out
 else
-  ./temp1 > $2      
+  ./temp1 > $2
 fi
-
+	
 rm temp1

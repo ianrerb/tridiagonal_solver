@@ -1,9 +1,9 @@
-#include"../inc/OptionGrid.h"
+#include"../inc/Grid.h"
 
 using namespace std;
 
 int main(){ 
-  OptionGrid grid(10,20);
+  Grid<double> grid(10,20);
   cout<<grid<<endl;
   return 0;  
 }
