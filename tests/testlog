@@ -193,3 +193,100 @@ print_tri.cpp passed
 Strategy1.cpp passed
 Strategy2.cpp passed
 tridiagonal1.cpp passed
+
+Tue Mar 13 11:26:49 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+
+Tue Mar 13 11:28:06 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp failed
+Strategy2.cpp failed
+tridiagonal1.cpp passed
+
+Tue Mar 13 11:30:50 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+
+Tue Mar 13 11:31:06 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+
+Tue Mar 13 11:31:23 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+
+Tue Mar 13 11:31:33 EDT 2012
+Engine1.cpp passed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Tue Mar 13 11:39:33 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp failed
+Strategy2.cpp failed
+tridiagonal1.cpp passed
+
+Tue Mar 13 11:40:56 EDT 2012
+Engine1.cpp passed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Tue Mar 13 12:18:33 EDT 2012
+Engine1.cpp failed
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+Strategy1.cpp passed
+Strategy2.cpp passed
+tridiagonal1.cpp passed
+
+Tue Mar 13 13:30:35 EDT 2012
+Grid2.cpp passed
+Grid3.cpp passed
+print_tri.cpp passed
+tridiagonal1.cpp passed
+All Tests Passed
+
+Tue Mar 13 13:50:30 EDT 2012
+Grid2.cpp passed
+Grid3.cpp passed
+PIDE1.cpp failed
+print_tri.cpp passed
+tridiagonal1.cpp passed

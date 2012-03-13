@@ -4,7 +4,7 @@
 
 class PriceStrategy {  
   public:
-    virtual double Execute( Option&, const double ) const = 0;
+    virtual double Execute( Option& ) const = 0;
 };
 
 #endif
