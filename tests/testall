@@ -2,13 +2,12 @@
 
 testfiles=*.cpp
 dependencies=../src/*.cpp
-
 logfile=./testlog
 failures=0
 
 for f in $dependencies
 do
-  g++ -c $f || exit 1;
+  g++ -c $f || exit 1; 
 done
 
 OBJ=./*.o 
@@ -35,4 +34,4 @@ if [ $failures = "0" ]
     echo All Tests Passed >> $logfile
 fi
 
-rm temp tempexe $OBJ 
+rm temp tempexe $OBJ

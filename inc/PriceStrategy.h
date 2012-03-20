@@ -4,7 +4,10 @@
 
 class PriceStrategy {  
   public:
-    virtual double Execute( Option& ) const = 0;
+    PriceStrategy& SetOption( Option & option ){ _TheOption = &option; return *this;  }
+    virtual double Execute( Option& , const double) = 0;
+  protected:
+    Option* _TheOption;
 };
 
 #endif

@@ -14,6 +14,20 @@ template<class T> class Grid {
     T& operator()(const unsigned int i, const unsigned int j){  return _values[i*_columns +j]; };
     unsigned int Rows() const{  return _rows; };
     virtual unsigned int Columns() const{  return _columns; };
+    std::vector<T> Column(size_t index){ 
+      if(index >=_columns){ throw("Index out of Range."); }
+      std::vector<T> temp;
+      for(size_t i = 0; i!= _rows; ++i)
+	temp.push_back((*this)(i,index));
+	return temp;  
+    }
+    
+    Grid& InsertColumn(std::vector<T> &c,size_t index){ 
+      if(c.size()!=_rows|| (index >= _columns)){ throw("Invalid Grid Operation."); }
+      for(size_t i = 0; i!= c.size(); ++i)
+	(*this)(i,index) = c[i];
+      return *this;
+    };
 
   friend std::ostream& operator<<( std::ostream& out, Grid<T>& myGrid ){  
     for(int i= 0; i!=myGrid.Rows(); i++){ 
