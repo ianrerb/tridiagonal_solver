@@ -17,43 +17,36 @@ bool PIDEStrategy::Initialize(const double spot_){
   //this also initializes DeltaX and DeltaTau to the appropriate values
   SetSpaceDomain((1.0-margin)*log(spot),(1.0+margin)*log(spot));
   SetTimeDomain(0,_TheOption->Expiry());
-  std::cout<<"Space Domain: ("<<exp(SpaceDomain.first)<<" , "<<exp(SpaceDomain.second)<<")\n\n";
   
   //compute constants for numerical results
   lambda_p = Lambda('p');
   lambda_n = Lambda('n');
- // std::cout<<"lambda_p: "<<lambda_p<<"\n"
- //	   <<"lambda_n: "<<lambda_n<<"\n";
 	    
   //perform subprocedures to initialize constants
   FillGVectors(_TheGrid->Rows());
- /* For Debugging
-  for(int i=0; i!=_g1.size(); ++i){ 
-     std::cout<<_g1[i]<<" "<<_g2[i]<<" "<<_g3[i]<<" "<<_g4[i]<<" "<<_g5[i]<<" "<<_g6[i]<<"\n";
-     }
-  */
   ComputeB();
-  //  std::cout<<"BL: "<<BL<<"\nBU"<<BU<<"\n";
      
   //set up TriMatrix
-  if(_TheMatrix!=NULL){  delete _TheMatrix; }
+  if(_TheMatrix!=NULL){  delete _TheMatrix; _TheMatrix = NULL; }
   size_t matrix_size = _TheGrid->Rows()-2*PIDE_CUSHION;
   _TheMatrix = new TriMatrix(matrix_size);
   std::vector<double> low(matrix_size-1,-BL);
   std::vector<double> high(matrix_size-1,-BU);
+  
+  //build diagonal
   std::vector<double> diag;
   for(size_t i = 0; i!= matrix_size; ++i){ 
     double temp = 1.0 + r*DeltaTau + BL + BU;
     temp += DeltaTau/nu*(pow(lambda_n,y)*_g3[i+1]+pow(lambda_p,y)*_g4[matrix_size-i-1]);
     diag.push_back(temp);
   }
+  
   //update for neumann boundary conditions
   diag[0] -= 4.0/(2.0+DeltaX)*BL;
   high[0] += (2.0 - DeltaX)/(2.0 + DeltaX)*BL;
   diag.back() -= 4.0/(2.0 - DeltaX)*BU;
   low.back() += (2.0-DeltaX)/(2.0+DeltaX)*BU;
   _TheMatrix->Initialize(diag,high,low);
-  //_TheMatrix->Print(); 
   isInit = true;
   return isInit; 
 }
@@ -61,21 +54,26 @@ bool PIDEStrategy::Initialize(const double spot_){
 double PIDEStrategy::Execute(Option& _option, const double spot_){ 
   //Set the option of choice
   SetOption(_option);
-  std::cout<<"Option Set with K: "<<_TheOption->Strike()<<"\n\n";
   
   if(!Initialize(spot_)){ //initialize and check for success
     std::cout<<"Initialization Failed.  Exiting with Value -1."; 
     return -1;   
   }
 
-  std::cout<<"Spot Price Set to: "<<spot_<<"\n\n";
-   
   unsigned int grid_rows = _TheGrid->Rows();
   unsigned int grid_cols = _TheGrid->Columns();  
+
   //Compute Grid
-  FillBoundaryValues();
+  FillInitialValues();
   FillInteriorValues();
   _TheOption->Premium((*_TheGrid)((grid_rows)/2,grid_cols-1)); 
+  
+  if(verbose == true){  
+    std::cout<<"Option Set with K: "<<_TheOption->Strike()<<"\n";
+    std::cout<<"Spot Price Set to: "<<spot_<<"\n"
+      	     <<"(DeltaX,DeltaTau) = "<<"("<<DeltaX<<","<<DeltaTau<<")\n"
+	     <<"ln(S) range:"<<SpaceDomain.first<<" - "<<SpaceDomain.second<<"\n";
+  }
   return _TheOption->Premium();
 }
 
@@ -85,9 +83,10 @@ void PIDEStrategy::FillInteriorValues(){
     std::vector<double> W_j = _TheGrid->Column(col_index-1); //last time step 
     std::vector<double> temp(W_j.begin()+PIDE_CUSHION,W_j.end()-PIDE_CUSHION); //leave off x0 and xN to be treated separately (boundary conditions)
     
-    for(unsigned int i = 0; i!= temp.size(); ++i){ 
+    //add to each element in temp[i] the value R(i,-j)
+    for(unsigned int i = 0; i!= temp.size(); ++i) 
       temp[i]+= R(i+PIDE_CUSHION,col_index-1)*DeltaTau/nu;
-    }
+    
     temp = Solve(*_TheMatrix,temp);
     
     //compute x0 xN
@@ -101,13 +100,9 @@ void PIDEStrategy::FillInteriorValues(){
   }  
 }
 
-void PIDEStrategy::FillBoundaryValues(){ 
+void PIDEStrategy::FillInitialValues(){ 
   for(unsigned int i = 0; i!=_TheGrid->Rows(); ++i)
-    (*_TheGrid)(i,0)=std::max(_TheOption->Strike()-exp(SpaceDomain.first+static_cast<double>(i)*DeltaX),0.0);
-  for(unsigned int j = 1; j!=_TheGrid->Columns(); ++j){  
-    (*_TheGrid)(0,j) = (*_TheGrid)(0,j-1);
-    (*_TheGrid)(_TheGrid->Rows()-1,j) = (*_TheGrid)(_TheGrid->Rows()-1,j-1);
-  }
+    (*_TheGrid)(i,0) = _TheOption->Payoff(exp(SpaceDomain.first+static_cast<double>(i)*DeltaX));
 }
 
 double PIDEStrategy::Lambda(char toggle) const { 
@@ -155,6 +150,12 @@ double PIDEStrategy::G2(const double x) const {
 void PIDEStrategy::FillGVectors(const unsigned int length){ 
   double valp = DeltaX*lambda_p;
   double valn = DeltaX*lambda_n;
+  _g1.clear();
+  _g2.clear();
+  _g3.clear();
+  _g4.clear();
+  _g5.clear();
+  _g6.clear();
 
   for(unsigned int k = 1; k!=(length+1); ++k){  
     _g1.push_back(G1(static_cast<double>(k)*valn));

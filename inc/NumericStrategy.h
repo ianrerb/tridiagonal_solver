@@ -9,15 +9,23 @@
 
 class NumericStrategy: public PriceStrategy { 
   public:
-    NumericStrategy(){_TheGrid = NULL; _TheOption = NULL;};
+    NumericStrategy(){_TheGrid = NULL; };
     //NumericStrategy(const NumericStrategy&);
     ~NumericStrategy(){delete _TheGrid; };
-    
+
+    double dx() const {  return DeltaX; };  
+    double dt() const { return DeltaTau; };
+
+    double LowSpaceBound() const { return SpaceDomain.first; };
+    double HighSpaceBound() const {  return SpaceDomain.second; };
+    double LowTimeBound() const { return TimeDomain.first; };
+    double HighTimeBound() const { return TimeDomain.second; };
+
     NumericStrategy& NewGrid(const unsigned int, const unsigned int);
     void PrintGrid() const { std::cout<<(*_TheGrid); }; 
    
   protected:
-    NumericStrategy& SetSpaceDomain(const double, const double );
+    NumericStrategy& SetSpaceDomain(const double, const double);
     NumericStrategy& SetTimeDomain(const double, const double);
     NumericStrategy& RefreshDelta();
      

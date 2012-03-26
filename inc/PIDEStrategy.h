@@ -9,11 +9,11 @@
 class PIDEStrategy : public NumericStrategy { 
   public:
     //constructor
-    PIDEStrategy(double r_=0, double q_=0, double sigma_=0, double nu_=0, double theta_=0, double y_=0):NumericStrategy(),r(r_),q(q_),sigma(sigma_),nu(nu_),theta(theta_),y(y_),isInit(false), margin(0),_TheMatrix(NULL){ };
+    PIDEStrategy(double r_=0, double q_=0, double sigma_=0, double nu_=0, double theta_=0, double y_=0):NumericStrategy(),r(r_),q(q_),sigma(sigma_),nu(nu_),theta(theta_),y(y_),isInit(false), margin(0),_TheMatrix(NULL),verbose(false){ };
 
     //interface implementation
     double Execute(Option&, const double);
-    
+     
     //accessor functions
     double RiskFreeRate() const { return r; };
     double DividendRate() const { return q; };
@@ -31,8 +31,10 @@ class PIDEStrategy : public NumericStrategy {
     PIDEStrategy& Nu(const double x) { nu=x; return *this; };
     PIDEStrategy& Theta(const double x) { theta=x; return *this; };
     PIDEStrategy& Y(const double x) { y=x; return *this; };
+    PIDEStrategy& Verbose(const bool x) { verbose=x; return *this; };
 
   private:
+    bool verbose;
     double r, q, sigma, nu, theta, y, spot, margin; 
     double lambda_p, lambda_n;
     double BL,BU;
@@ -47,7 +49,7 @@ class PIDEStrategy : public NumericStrategy {
     
     void FillGVectors(const unsigned int);
     void ComputeB(); 
-    void FillBoundaryValues();
+    void FillInitialValues();
     void FillInteriorValues();
      
     double sig_squared(const double) const;

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SRC=../src/*.cpp
+
+g++ -o temp1 $1 $SRC
+
+./temp1	
+rm temp1
