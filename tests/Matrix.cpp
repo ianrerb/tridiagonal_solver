@@ -1,5 +1,6 @@
 #include"../inc/TriSolver.h"
 #include<vector>
+#include<iostream>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ int main(){
   TriMatrix TheMatrix(size);
 
   TheMatrix.Initialize(d,u,l);
-  TheMatrix.Print();  
+  cout<<TheMatrix;  
   vector<double> b = d;
 
   vector<double> x = Solve(TheMatrix,b);

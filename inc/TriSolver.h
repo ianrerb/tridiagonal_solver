@@ -31,48 +31,51 @@ class TriMatrix {
       if(vec.size() != N){ throw("Invalid Dimension for Diagonal Vector."); }
 	d = vec;
 	return *this;
-      }
+      };
  
     TriMatrix& SetLower(std::vector<double> vec){  
       if(vec.size() != (N-1)){ throw("Invalid Dimension for Lower Vector."); }
 	l = vec;
 	return *this;
-      }
+      };
     
     TriMatrix& SetUpper(std::vector<double> vec){  
       if(vec.size() != (N-1)){ throw("Invalid Dimension for Upper Vector."); }
 	u = vec;
 	return *this;
-      }
-    void Print(){ 
-      for(int i = 0; i!= N; ++i){  
-	for(int j = 0; j!= N; ++j){
+      };
+    
+    friend std::ostream& operator<<(std::ostream& out, TriMatrix& myMatrix){ 
+      for(int i = 0; i!= myMatrix.N; ++i){  
+	for(int j = 0; j!= myMatrix.N; ++j){
 	  switch(i-j){  
 	    case 0:
-	      std::cout<<d[i]<<" ";
+	      out<<myMatrix.d[i]<<" ";
 	    break;
 
 	    case 1:
-	      std::cout<<l[j]<<" ";
+	      out<<myMatrix.l[j]<<" ";
 	    break;
 
 	    case -1:
-	      std::cout<<u[i]<<" ";
+	      out<<myMatrix.u[i]<<" ";
 	    break;
 
 	    default:
-	      std::cout<<0<<" ";
+	      out<<0<<" ";
 	  }
 	}
-	std::cout<<"\n";
+	out<<"\n";
       }
-      std::cout<<"\n";
-    };
+      out<<"\n";
+      return out;
+    };  
   
   private:
     std::vector<double> d, u, l;
     std::size_t N;
 };
+      
 
 //tridiagonal solver
 std::vector<double> inline Solve( TriMatrix TheMatrix, std::vector<double> b ){  

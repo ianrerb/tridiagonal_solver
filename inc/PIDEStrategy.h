@@ -24,7 +24,7 @@ class PIDEStrategy : public NumericStrategy {
     double Margin() const { return margin; };
     double Spot() const { return spot; }; 
 
-    PIDEStrategy& Margin(const double x) {  margin = x; return *this; };
+    PIDEStrategy& Margin(const double x) { margin = x; return *this; };
     PIDEStrategy& RiskFreeRate(const double x) { r=x; return *this; };
     PIDEStrategy& DividendRate(const double x) { q=x; return *this; };
     PIDEStrategy& Sigma(const double x) { sigma=x; return *this; };

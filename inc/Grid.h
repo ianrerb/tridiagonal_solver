@@ -1,11 +1,15 @@
 #ifndef GRID_H
 #define GRID_H
-
 #include<vector>
 #include<iostream>
-#include"Grid.h"
 
-//interface for concrete grid classes
+// Grid(row index, col index)
+// Rows()
+// Columns()
+// Column(index)
+// InsertColumn(vector,index)
+// << operator
+
 template<class T> class Grid { 
   public:
     Grid(unsigned const int rows=0, const unsigned int cols=0):_rows(rows), _columns(cols){ _values=std::vector<T>(rows*cols); };
