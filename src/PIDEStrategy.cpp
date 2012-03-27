@@ -2,7 +2,6 @@
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/special_functions/expint.hpp>
 
-#define PIDE_CUSHION 1
 
 bool PIDEStrategy::Initialize(const double spot_){ 
   isInit = false;  //if initialization fails, this will be false
@@ -37,7 +36,7 @@ bool PIDEStrategy::Initialize(const double spot_){
   std::vector<double> diag;
   for(size_t i = 0; i!= matrix_size; ++i){ 
     double temp = 1.0 + r*DeltaTau + BL + BU;
-    temp += DeltaTau/nu*(pow(lambda_n,y)*_g3[i+1]+pow(lambda_p,y)*_g4[matrix_size-i-1]);
+    temp += DeltaTau/nu*(pow(lambda_n,y)*_g3[i]+pow(lambda_p,y)*_g4[matrix_size-i]);
     diag.push_back(temp);
   }
   

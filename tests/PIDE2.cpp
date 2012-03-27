@@ -1,4 +1,3 @@
-#include "../inc/OptionEngine.h"
 #include "../inc/PIDEStrategy.h"
 #include <vector>
 

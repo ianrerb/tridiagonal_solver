@@ -1,18 +1,20 @@
 #ifndef NUMERICSTRATEGY_H
 #define NUMERICSTRATEGY_H
-#include "PriceStrategy.h"
+#include "Option.h"
 #include "Grid.h"
 #include <iostream>
 #include<utility>
 #include<cmath>
 //This class is abstract. It does not implement the virtual function Execute()
 
-class NumericStrategy: public PriceStrategy { 
+class NumericStrategy { 
   public:
     NumericStrategy(){_TheGrid = NULL; };
     //NumericStrategy(const NumericStrategy&);
     ~NumericStrategy(){delete _TheGrid; };
 
+    virtual double Execute( Option& , const double) = 0;
+    
     double dx() const {  return DeltaX; };  
     double dt() const { return DeltaTau; };
 
@@ -25,11 +27,13 @@ class NumericStrategy: public PriceStrategy {
     void PrintGrid() const { std::cout<<(*_TheGrid); }; 
    
   protected:
+    NumericStrategy& SetOption( Option & option ){ _TheOption = &option; return *this;  }
     NumericStrategy& SetSpaceDomain(const double, const double);
     NumericStrategy& SetTimeDomain(const double, const double);
     NumericStrategy& RefreshDelta();
      
     //Member Variables 
+    Option* _TheOption;
     Grid<double>* _TheGrid; //ptr to a grid instance
     std::pair<double,double>SpaceDomain; //lower and upper bounds on space domain
     std::pair<double,double>TimeDomain; //lower and upper bounds on time domain

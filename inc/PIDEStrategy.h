@@ -5,6 +5,8 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#define PIDE_CUSHION 1
+
 
 class PIDEStrategy : public NumericStrategy { 
   public:
@@ -33,7 +35,7 @@ class PIDEStrategy : public NumericStrategy {
     PIDEStrategy& Y(const double x) { y=x; return *this; };
     PIDEStrategy& Verbose(const bool x) { verbose=x; return *this; };
 
-  private:
+  protected:
     bool verbose;
     double r, q, sigma, nu, theta, y, spot, margin; 
     double lambda_p, lambda_n;
@@ -41,6 +43,7 @@ class PIDEStrategy : public NumericStrategy {
     std::vector<double> _g1, _g2, _g3, _g4, _g5, _g6;        
     mutable bool isInit;
     TriMatrix* _TheMatrix;     
+
     //helper functions for computing derivatives prices
     bool Initialize( const double );
     double Lambda(char) const;
@@ -50,14 +53,12 @@ class PIDEStrategy : public NumericStrategy {
     void FillGVectors(const unsigned int);
     void ComputeB(); 
     void FillInitialValues();
-    void FillInteriorValues();
+    virtual void FillInteriorValues(); //override in child strategies
      
     double sig_squared(const double) const;
     double omega(const double) const;
     double R(const unsigned int, const unsigned int) const;
     
-    double ComputeBoundaryPoint(const unsigned int, const unsigned int) const;
-    double ComputeInteriorPoint(const unsigned int, const unsigned int) const;
 };
 
 #endif

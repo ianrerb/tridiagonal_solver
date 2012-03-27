@@ -1,35 +1,35 @@
 Option Set with K: 1100
 Spot Price Set to: 1300
 (DeltaX,DeltaTau) = (0.057361,0.00025025)
-
-16.363
+ln(S) range:5.7361 - 8.60414
+16.3578
 
 
 Option Set with K: 1150
 Spot Price Set to: 1300
 (DeltaX,DeltaTau) = (0.057361,0.00025025)
-
-23.2844
+ln(S) range:5.7361 - 8.60414
+23.2788
 
 
 Option Set with K: 1200
 Spot Price Set to: 1300
 (DeltaX,DeltaTau) = (0.057361,0.00025025)
-
-33.5465
+ln(S) range:5.7361 - 8.60414
+33.5403
 
 
 Option Set with K: 1250
 Spot Price Set to: 1300
 (DeltaX,DeltaTau) = (0.057361,0.00025025)
-
-45.9793
+ln(S) range:5.7361 - 8.60414
+45.9727
 
 
 Option Set with K: 1300
 Spot Price Set to: 1300
 (DeltaX,DeltaTau) = (0.057361,0.00025025)
-
-60.1613
+ln(S) range:5.7361 - 8.60414
+60.1542
 
 

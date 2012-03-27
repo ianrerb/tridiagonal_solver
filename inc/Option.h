@@ -25,4 +25,12 @@ class EuropeanPut : public Option {
     ~EuropeanPut(){  };
     double Payoff(const double spot) const;
 };
+
+class EuropeanCall : public Option {  
+  public:
+    EuropeanCall(const double K, const double T):Option(K,T){  };
+    ~EuropeanCall(){  }
+    double Payoff(const double spot) const;  
+};
+
 #endif

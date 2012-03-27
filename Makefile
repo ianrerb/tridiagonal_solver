@@ -1,4 +1,4 @@
-OBJ= main.o EuropeanPut.o NumericStrategy.o PIDEStrategy.o
+OBJ= main.o EuropeanPut.o EuropeanCall.o NumericStrategy.o PIDEStrategy.o
 SRC= ./src/
 INC= ./inc/
 CPL= g++ -c
@@ -12,6 +12,9 @@ main.o : main.cpp
 
 EuropeanPut.o : $(INC)Option.h
 	$(CPL) $(SRC)EuropeanPut.cpp
+
+EuropeanCall.o : $(INC)Option.h
+	$(CPL) $(SRC)EuropeanCall.cpp
 
 NumericStrategy.o : $(INC)NumericStrategy.h 
 	$(CPL) $(SRC)NumericStrategy.cpp
