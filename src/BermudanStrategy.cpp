@@ -27,7 +27,7 @@ void BermudanStrategy::FillInteriorValues(){
       if(_TheOption->Payoff(exp(x)) > *it){ *it = _TheOption->Payoff(exp(x)); }  
       x +=DeltaX;
     }
-
+    
     _TheGrid->InsertColumn(temp, col_index);
   }  
 }

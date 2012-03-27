@@ -138,12 +138,19 @@ double PIDEStrategy::R(const unsigned int i, const unsigned int j) const {
 }
 
 double PIDEStrategy::G1(const double x) const{ 
-  return (y == 0 ? std::exp(-x) : boost::math::tgamma(x,1.0-y));   
+  double retval;
+  if(abs(y)<0.001){ retval = exp(-x); }
+  else { retval =  boost::math::tgamma(x,1.0-y); }
+ // std::cout<<"x= "<<x<<" , y= "<<y<<" g1(x)= "<<retval<<"\n\n";  
+  return retval; 
 }
 
 double PIDEStrategy::G2(const double x) const { 
-  if(y==0){ return -boost::math::expint(-x);  }
-  return(std::exp(-x)*std::pow(x,-y)/y- boost::math::tgamma(x,1.0-y)/y);
+  double retval;
+  if(abs(y)<0.001){ retval = -boost::math::expint(-x);  }
+  else{ retval =  std::exp(-x)*std::pow(x,-y)/y- boost::math::tgamma(x,1.0-y)/y; }
+ // std::cout<<"x= "<<x<<" , y= "<<y<<" g2(x)= "<<retval<<"\n\n";  
+  return retval;
 }
 
 void PIDEStrategy::FillGVectors(const unsigned int length){ 
