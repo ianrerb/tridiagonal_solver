@@ -53,7 +53,8 @@ class PIDEStrategy : public NumericStrategy {
     void FillGVectors(const unsigned int);
     void ComputeB(); 
     void FillInitialValues();
-    virtual void FillInteriorValues(); //override in child strategies
+    void FillInteriorValues(); //override in child strategies
+    virtual void AmericanAdjustment(std::vector<double> &){  }; //no adj for PIDE strategy 
      
     double sig_squared(const double) const;
     double omega(const double) const;

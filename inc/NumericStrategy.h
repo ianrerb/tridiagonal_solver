@@ -24,8 +24,17 @@ class NumericStrategy {
     double HighTimeBound() const { return TimeDomain.second; };
 
     NumericStrategy& NewGrid(const unsigned int, const unsigned int);
-    void PrintGrid() const { std::cout<<(*_TheGrid); }; 
-   
+    void PrintGrid() const { 
+      double x = SpaceDomain.first;
+      for(int i = 0; i!= _TheGrid->Rows(); ++i){  
+	std::cout<<exp(x)<<": ";
+	for(int j =0; j!= _TheGrid->Columns(); ++j){  
+	  std::cout<<(*_TheGrid)(i,j)<<" ";
+	}
+	std::cout<<"\n";
+	x+=DeltaX;
+      }
+    } 
   protected:
     NumericStrategy& SetOption( Option & option ){ _TheOption = &option; return *this;  }
     NumericStrategy& SetSpaceDomain(const double, const double);

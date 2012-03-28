@@ -7,7 +7,7 @@ void RunTrial(unsigned int, unsigned int, double);
   
   //GLOBAL VARS
   double Spot = 1300;
-  BermudanStrategy TheStrategy(.03,.015,.3,.4,-.3,0);
+  BermudanStrategy TheStrategy(.0025,0,.3,.4,-.3,0);
   EuropeanPut Option1100(1100,.5);
   EuropeanPut Option1200(1200,.5);
   EuropeanPut Option1300(1300,.5);
@@ -17,13 +17,10 @@ int main(){
   TheStrategy.Verbose(true);
 
  
-  RunTrial(300,100,0);
-  RunTrial(300,200,0);
-  RunTrial(300,400,0);
-  RunTrial(300,600,0);
-  RunTrial(300,1200,0);
-  RunTrial(300,2400,0);
-  RunTrial(300,4800,0);
+  RunTrial(500,1000,0);
+  RunTrial(500,2000,0);
+  RunTrial(500,3000,0);
+  RunTrial(500,4000,0);
   
   return 0;
 }

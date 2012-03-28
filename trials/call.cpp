@@ -7,7 +7,7 @@ int main(){
   double Spot = 100;
   EuropeanCall TheOption(90,.083333); 
   PIDEStrategy TheStrategy(.1,0,.12,.2,-.14,0);
-  TheStrategy.Margin(.95);
+  TheStrategy.Margin(.99);
   TheStrategy.Verbose(true);  
   for(unsigned int N = 500; N<501; N+=25){
     for(unsigned int M = 100; M<5000; M*=2){    

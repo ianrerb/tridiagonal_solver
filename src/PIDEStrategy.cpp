@@ -2,7 +2,6 @@
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/special_functions/expint.hpp>
 
-
 bool PIDEStrategy::Initialize(const double spot_){ 
   isInit = false;  //if initialization fails, this will be false
 
@@ -14,20 +13,22 @@ bool PIDEStrategy::Initialize(const double spot_){
   
   //set the domains of the grid
   //this also initializes DeltaX and DeltaTau to the appropriate values
-  SetSpaceDomain((1.0-margin)*log(spot),(1.0+margin)*log(spot));
+  SetSpaceDomain(log((1.0-margin)*spot),log(spot)+log(1.0/(1.0-margin)));
   SetTimeDomain(0,_TheOption->Expiry());
   
   //compute constants for numerical results
   lambda_p = Lambda('p');
   lambda_n = Lambda('n');
-	    
+  //std::cout<<"Lp: "<<lambda_p<<"   Ln: "<<lambda_n<<"\n\n";	    
+  
   //perform subprocedures to initialize constants
   FillGVectors(_TheGrid->Rows());
   ComputeB();
-     
+  //std::cout<<"BU: "<<BU<<"   BL: "<<BL <<"\n\n";  
+  
   //set up TriMatrix
   if(_TheMatrix!=NULL){  delete _TheMatrix; _TheMatrix = NULL; }
-  size_t matrix_size = _TheGrid->Rows()-2*PIDE_CUSHION;
+  unsigned int matrix_size = _TheGrid->Rows()-2*PIDE_CUSHION;
   _TheMatrix = new TriMatrix(matrix_size);
   std::vector<double> low(matrix_size-1,-BL);
   std::vector<double> high(matrix_size-1,-BU);
@@ -44,7 +45,7 @@ bool PIDEStrategy::Initialize(const double spot_){
   diag[0] -= 4.0/(2.0+DeltaX)*BL;
   high[0] += (2.0 - DeltaX)/(2.0 + DeltaX)*BL;
   diag.back() -= 4.0/(2.0 - DeltaX)*BU;
-  low.back() += (2.0-DeltaX)/(2.0+DeltaX)*BU;
+  low.back() += (2.0 + DeltaX)/(2.0 - DeltaX)*BU;
   _TheMatrix->Initialize(diag,high,low);
   isInit = true;
   return isInit; 
@@ -65,8 +66,11 @@ double PIDEStrategy::Execute(Option& _option, const double spot_){
   //Compute Grid
   FillInitialValues();
   FillInteriorValues();
+  
+  //grab premium for current spot and update option
   _TheOption->Premium((*_TheGrid)((grid_rows)/2,grid_cols-1)); 
   
+  //print details if verbose
   if(verbose == true){  
     std::cout<<"Option Set with K: "<<_TheOption->Strike()<<"\n";
     std::cout<<"Spot Price Set to: "<<spot_<<"\n"
@@ -79,7 +83,7 @@ double PIDEStrategy::Execute(Option& _option, const double spot_){
 void PIDEStrategy::FillInteriorValues(){ 
   //perform implicit step for columns 1...end
   for(unsigned int col_index = 1; col_index!=_TheGrid->Columns(); ++col_index){ 
-    std::vector<double> W_j = _TheGrid->Column(col_index-1); //last time step 
+    std::vector<double> W_j = _TheGrid->Column(col_index-1);
     std::vector<double> temp(W_j.begin()+PIDE_CUSHION,W_j.end()-PIDE_CUSHION); //leave off x0 and xN to be treated separately (boundary conditions)
     
     //add to each element in temp[i] the value R(i,-j)
@@ -95,6 +99,7 @@ void PIDEStrategy::FillInteriorValues(){
 
     temp.push_back(xN);
     temp.insert(temp.begin(),x0);
+    AmericanAdjustment(temp);
     _TheGrid->InsertColumn(temp, col_index);
   }  
 }
@@ -126,6 +131,7 @@ double PIDEStrategy::R(const unsigned int i, const unsigned int j) const {
     double temp = ((*_TheGrid)(i-k-1,j)-(*_TheGrid)(i-k,j));
     val += pow(lambda_n,y)*((*_TheGrid)(i-k,j)-(*_TheGrid)(i,j)-static_cast<double>(k)*temp)*(_g3[k-1]-_g3[k]); // k-1 since g vectors 0 ... N-1  
     val += temp/(pow(lambda_n,1.0-y)*DeltaX)*(_g1[k-1]-_g1[k]);
+    //if(i ==7){ std::cout<<"w("<<i-k-1<<","<<j<<") = "<<(*_TheGrid)(i-k-1,j)<<"\n";}
   }
   for(unsigned int k=1; k!=(_TheGrid->Rows()-i-1);++k){  
     double temp = ((*_TheGrid)(i+k+1,j)- (*_TheGrid)(i+k,j));
@@ -133,22 +139,26 @@ double PIDEStrategy::R(const unsigned int i, const unsigned int j) const {
     val += temp/(pow(lambda_p,1.0-y)*DeltaX)*(_g2[k-1]-_g2[k]);
   }
 
-  val+= _TheOption->Strike()*pow(lambda_n,y)*_g3[i-1]-exp(SpaceDomain.first+static_cast<double>(i)*DeltaX)*pow(lambda_n+1.0,y)*_g5[i-1];
+  val += _TheOption->Strike()*pow(lambda_n,y)*_g3[i-1]-exp(SpaceDomain.first+static_cast<double>(i)*DeltaX)*pow(lambda_n+1.0,y)*_g5[i-1];
   return val;
 }
 
 double PIDEStrategy::G1(const double x) const{ 
   double retval;
-  if(abs(y)<0.001){ retval = exp(-x); }
-  else { retval =  boost::math::tgamma(x,1.0-y); }
+  if(fabs(y)<0.001){ 
+    retval = exp(-x);
+   }
+  else { 
+    retval =  boost::math::tgamma(1.0-y,x); 
+    }
  // std::cout<<"x= "<<x<<" , y= "<<y<<" g1(x)= "<<retval<<"\n\n";  
   return retval; 
 }
 
 double PIDEStrategy::G2(const double x) const { 
   double retval;
-  if(abs(y)<0.001){ retval = -boost::math::expint(-x);  }
-  else{ retval =  std::exp(-x)*std::pow(x,-y)/y- boost::math::tgamma(x,1.0-y)/y; }
+  if(fabs(y)<0.001){ retval = -boost::math::expint(-x);  }
+  else{ retval =  std::exp(-x)*std::pow(x,-y)/y- boost::math::tgamma(1.0-y,x)/y; }
  // std::cout<<"x= "<<x<<" , y= "<<y<<" g2(x)= "<<retval<<"\n\n";  
   return retval;
 }
@@ -156,6 +166,8 @@ double PIDEStrategy::G2(const double x) const {
 void PIDEStrategy::FillGVectors(const unsigned int length){ 
   double valp = DeltaX*lambda_p;
   double valn = DeltaX*lambda_n;
+  
+  //clear existing vectors
   _g1.clear();
   _g2.clear();
   _g3.clear();
@@ -163,6 +175,8 @@ void PIDEStrategy::FillGVectors(const unsigned int length){
   _g5.clear();
   _g6.clear();
 
+  //fill vectors
+  //std::cout<<"g1\tg2\tg3\tg4\tg5\tg6\n";
   for(unsigned int k = 1; k!=(length+1); ++k){  
     _g1.push_back(G1(static_cast<double>(k)*valn));
     _g2.push_back(G1(static_cast<double>(k)*valp));
@@ -170,6 +184,14 @@ void PIDEStrategy::FillGVectors(const unsigned int length){
     _g4.push_back(G2(static_cast<double>(k)*valp));
     _g5.push_back(G2(static_cast<double>(k)*(valn+DeltaX)));
     _g6.push_back(G2(static_cast<double>(k)*(valp-DeltaX)));
+   /*
+    std::cout<<_g1[k-1]<<"\t"
+	<<_g2[k-1]<<"\t"
+	<<_g3[k-1]<<"\t"
+	<<_g4[k-1]<<"\t"
+	<<_g5[k-1]<<"\t"
+	<<_g6[k-1]<<"\n";
+  */
   }  
 }
 

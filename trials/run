@@ -2,7 +2,10 @@
 
 SRC=../src/*.cpp
 
+rm temp1
+
 g++ -o temp1 $1 $SRC
 
 ./temp1	
+
 rm temp1
